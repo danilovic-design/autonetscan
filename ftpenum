@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+IP=$1
+PROJECTNAME=$2
+OUTPUT_FILENAME="$PROJECTNAME.ftp.txt"
+
+echo "[+] Starting enumerating ftp for IP $IP... project name: $PROJECTNAME"
+
+if [[ -n $PROJECTNAME && -n $IP ]]; then
+
+echo "[+] ... getting ftp anonymous logins"
+nmap -Pn -p 20,21 --script ftp-anon $IP > $OUTPUT_FILENAME
+echo "[+] FTP-ANON scan ready, starting "
+nmap -Pn -p 20,21 -sV $IP >> $OUTPUT_FILENAME
+echo "[+] - DONE"
+else
+echo "[-] PROJECT NAME OR IP ADDRESS IS MISSING!"
+fi

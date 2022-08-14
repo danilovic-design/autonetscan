@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+IP=$1
+PROJECTNAME=$2
+
+echo "[+] Starting enumerating smb for IP $IP... project name: $PROJECTNAME"
+
+if [[ -n $PROJECTNAME && -n $IP ]]; then
+echo "[+] ... getting enum shares"
+nmap -Pn -p 121,445 --script smb-enum-shares $IP > "$PROJECTNAME.txt"
+echo "[+] SMB-ENUM-SHARES scan ready, starting detailed scan"
+nmap -Pn -p 121,445 --script smb-* $IP > "$PROJECTNAME.detailed.txt"
+echo "[+] SMB scan ready, starting enum4linux"
+enum4linux $IP >> "$PROJECTNAME.detailed.txt"
+echo "[+] - DONE"
+else
+echo "[-] PROJECT NAME OR IP ADDRESS IS MISSING!"
+fi
+

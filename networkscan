@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+IP=$1
+PROJECTNAME=$2
+
+echo "[+] Scanning for $IP started... project name: $PROJECTNAME"
+echo "Scanning for common ports..."
+nmap -Pn $IP
