@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 
 IP=$1
 PROJECTNAME=$2
@@ -30,8 +30,8 @@ value=$(<ports.short.net.txt)
 
 if [[ $value == *"80/tcp"* ]]
 then
-echo "[+] - Port 80 found ope0, starting a nikto scan..."
-nikto -Host $IP
+echo "[+] - Port 80 found open, starting a nikto scan..."
+nikto -host $IP
 fi
 
 echo ""
