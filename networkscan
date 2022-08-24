@@ -31,37 +31,37 @@ value=$(<ports.short.net.txt)
 if [[ $value == *"80/tcp"* ]]
 then
 echo "[+] - Port 80 found open, starting a nikto scan..."
-nikto -host $IP
+nikto -host $IP > "nikto.txt"
 fi
 
 echo ""
 echo "$SCANNINGRANGE 1-10000"
-nmap -Pn -p1-10000 -oN "ports.0010.net.txt" $IP
+nmap -Pn -p1-10000 -T4 -oN "ports.0010.net.txt" $IP
 
 echo ""
 echo "$ENDLIMITER"
 echo "$SCANNINGRANGE 10000-20000"
-nmap -Pn -p10000-20000 -oN "ports.1020.net.txt" $IP
+nmap -Pn -p10000-20000 -T4 -oN "ports.1020.net.txt" $IP
 
 echo ""
 echo "$ENDLIMITER"
 echo "$SCANNINGRANGE 30000-40000"
-nmap -Pn -p20000-30000 -oN "ports.3040.net.txt" $IP
+nmap -Pn -p20000-30000 -T4 -oN "ports.3040.net.txt" $IP
 
 echo ""
 echo "$ENDLIMITER"
 echo "$SCANNINGRANGE 40000-50000"
-nmap -Pn -p30000-40000 -oN "ports.4050.net.txt" $IP
+nmap -Pn -p30000-40000 -T4 -oN "ports.4050.net.txt" $IP
 
 echo ""
 echo "$ENDLIMITER"
 echo "$SCANNINGRANGE 40000-50000"
-nmap -Pn -p40000-50000 -oN "ports.4050.net.txt" $IP
+nmap -Pn -p40000-50000 -T4 -oN "ports.4050.net.txt" $IP
 
 echo ""
 echo "$ENDLIMITER"
 echo "$SCANNINGRANGE 50000-65535"
-nmap -Pn -p50000-65535 -oN "ports.5060.net.txt" $IP
+nmap -Pn -p50000-65535 -T4 -oN "ports.5060.net.txt" $IP
 
 echo ""
 echo "[+] DONE!"
