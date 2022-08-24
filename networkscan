@@ -1,29 +1,69 @@
-#!/usr/bin/env bash
+#!/usr/bin/bash
 
 IP=$1
 PROJECTNAME=$2
+SCANNINGRANGE="...scanning from"
+ENDLIMITER="- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
+
+echo $PROJECTNAME
+echo $IP
+
+if [[ -z $PROJECTNAME ]]
+then
+echo "[-] No projectname given $PROJECTNAME, exiting..."
+
+elif [[ -z $IP ]]
+then
+echo "[-] No IP address given, exiting..."
+
+else
 
 echo "[+] Scanning for $IP started... project name: $PROJECTNAME"
+mkdir "$PROJECTNAME-results"
+echo "[+] $PROJECTNAME folder created"
+cd "$PROJECTNAME-results"
 
-echo "...Scanning for common ports..."
-nmap -Pn -oN "$PROJECTNAME.short.net.txt" $IP 
+echo ""
+echo -e "...Scanning for common ports..."
+nmap -Pn -oN "ports.short.net.txt" $IP 
+value=$(<ports.short.net.txt)
 
-echo "...common port scan ready, scanning from 1-10000"
-nmap -Pn -p1-10000 -oN "$PROJECTNAME.0010.net.txt" $IP
+if [[ $value == *"80/tcp"* ]]
+then
+echo "[+] - Port 80 found ope0, starting a nikto scan..."
+nikto -Host $IP
+fi
 
-echo "...common port scan ready, scanning from 10000-20000"
-nmap -Pn -p10000-20000 -oN "$PROJECTNAME.1020.net.txt" $IP
+echo ""
+echo "$SCANNINGRANGE 1-10000"
+nmap -Pn -p1-10000 -oN "ports.0010.net.txt" $IP
 
-echo "...common port scan ready, scanning from 30000-40000"
-nmap -Pn -p20000-30000 -oN "$PROJECTNAME.3040.net.txt" $IP
+echo ""
+echo "$ENDLIMITER"
+echo "$SCANNINGRANGE 10000-20000"
+nmap -Pn -p10000-20000 -oN "ports.1020.net.txt" $IP
 
-echo "...common port scan ready, scanning from 40000-50000"
-nmap -Pn -p30000-40000 -oN "$PROJECTNAME.4050.net.txt" $IP
+echo ""
+echo "$ENDLIMITER"
+echo "$SCANNINGRANGE 30000-40000"
+nmap -Pn -p20000-30000 -oN "ports.3040.net.txt" $IP
 
-echo "...common port scan ready, scanning from 40000-50000"
-nmap -Pn -p40000-50000 -oN "$PROJECTNAME.4050.net.txt" $IP
+echo ""
+echo "$ENDLIMITER"
+echo "$SCANNINGRANGE 40000-50000"
+nmap -Pn -p30000-40000 -oN "ports.4050.net.txt" $IP
 
-echo "...common port scan ready, scanning from 50000-65535"
-nmap -Pn -p50000-65535 -oN "$PROJECTNAME.5060.net.txt" $IP
+echo ""
+echo "$ENDLIMITER"
+echo "$SCANNINGRANGE 40000-50000"
+nmap -Pn -p40000-50000 -oN "ports.4050.net.txt" $IP
 
+echo ""
+echo "$ENDLIMITER"
+echo "$SCANNINGRANGE 50000-65535"
+nmap -Pn -p50000-65535 -oN "ports.5060.net.txt" $IP
+
+echo ""
 echo "[+] DONE!"
+
+fi
